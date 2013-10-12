@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fedon.matrix.model.Matrix;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,11 +18,36 @@ public class MatrixManager {
     private final Log log = LogFactory.getLog(this.getClass());
     @Autowired
     ServletContext ctx;
+    @Autowired
+    ApplicationContext appctx;
 
-    public Matrix mult(Matrix left, Matrix right) {
-        // TODO implement
-        log.warn("Not yet implemented");
-        throw new UnsupportedOperationException("Not yet implemented");
+    public Matrix mult(Matrix... matrixs) {
+        if (matrixs.length < 2) {
+            return Matrix.instancE();
+        }
+        log.info("name: " + appctx.getDisplayName());
+        for (int i = 0; i < matrixs.length; i++) {
+            log.info("matrix[" + i + "] for mult: " + matrixs[i]);
+        }
+        Matrix result = matrixs[0];
+        for (int i = 1; i < matrixs.length; i++) {
+            result = mult(result, matrixs[i]);
+        }
+        return result;
+    }
+
+    protected Matrix mult(Matrix left, Matrix right) {
+        Matrix result = new Matrix();
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                int val = 0;
+                for (int i = 0; i < 3; i++) {
+                    val += left.get(x, i) * right.get(i, y);
+                }
+                result.set(x, y, val);
+            }
+        }
+        return result;
     }
 
     public void info() {

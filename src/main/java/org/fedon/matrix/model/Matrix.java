@@ -51,7 +51,7 @@ public class Matrix {
         if (getClass() != obj.getClass())
             return false;
         Matrix other = (Matrix) obj;
-        if (!Arrays.equals(value, other.value))
+        if (!Arrays.equals(value[0], other.value[0]) || !Arrays.equals(value[1], other.value[1]) || !Arrays.equals(value[2], other.value[2]))
             return false;
         return true;
     }

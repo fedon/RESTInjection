@@ -8,13 +8,26 @@
         <param-value>
             /WEB-INF/applicationContext.xml</param-value>
     </context-param>
+ 
+    <listener>
+        <listener-class>
+            org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+        </listener-class>
+    </listener>
+ 
+    <listener>
+        <listener-class>
+            org.jboss.resteasy.plugins.spring.SpringContextLoaderListener
+        </listener-class>
+    </listener>
     
+    <!-- clear spring ContextLoader
     <listener>
         <listener-class>
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
- 
+   -->
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>
@@ -28,6 +41,18 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/math/*</url-pattern>
+    </servlet-mapping>
+ 
+    <servlet>
+        <servlet-name>resteasy-servlet</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+    </servlet>
+ 
+    <servlet-mapping>
+        <servlet-name>resteasy-servlet</servlet-name>
+        <url-pattern>/easy-matrix/*</url-pattern>
     </servlet-mapping>
 </web-app>

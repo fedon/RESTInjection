@@ -19,7 +19,7 @@ public interface MatrixIf {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/mult")
-    public Matrix mult(Matrix left, Matrix right);
+    public Matrix mult(Matrix... matrixs);
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

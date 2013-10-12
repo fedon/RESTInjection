@@ -17,9 +17,9 @@ public class MatrixEndpoint implements MatrixIf {
     @Autowired
     MatrixManager matrixManager;
     
-    public Matrix mult(Matrix left, Matrix right) {
-        return matrixManager.mult(left, right);
-    }
+    // public Matrix mult(Matrix left, Matrix right) {
+    // return matrixManager.mult(left, right);
+    // }
 
     public String supportedOps() {
         matrixManager.info();
@@ -34,5 +34,10 @@ public class MatrixEndpoint implements MatrixIf {
     @Override
     public Matrix single() {
         return Matrix.instancE();
+    }
+
+    @Override
+    public Matrix mult(Matrix... matrixs) {
+        return matrixManager.mult(matrixs); // TODO make general
     }
 }
