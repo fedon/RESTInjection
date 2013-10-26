@@ -17,11 +17,8 @@ public class MatrixResteasyProxy {
     static String base = "http://localhost:8080/matrixREST/easy-matrix";
 
     public static void main(String[] args) throws Exception {
-        RestClientProxyFactoryBean<MatrixIf> factory = new RestClientProxyFactoryBean<MatrixIf>();
-        factory.setServiceInterface(MatrixIf.class);
-        factory.setBaseUri(getBaseURI());
-        factory.afterPropertiesSet();
-        MatrixIf client = factory.getObject();
+        MatrixIf client = createClient();
+
         Matrix a = new Matrix();
         a.set(1, 0, 1);
         System.out.println("a: " + a);
@@ -30,12 +27,19 @@ public class MatrixResteasyProxy {
 
         Matrix b = new Matrix();
         b.set(0, 1, 3);
-        // System.out.println("a: " + a);
         System.out.println("b: " + b);
         result = client.mult(b, a, Matrix.instancE());
 
-        System.out.println("a * b = " + result);
+        System.out.println("b * a * E = " + result);
         System.out.println("E = " + client.single());
+    }
+
+    private static MatrixIf createClient() throws Exception {
+        RestClientProxyFactoryBean<MatrixIf> factory = new RestClientProxyFactoryBean<MatrixIf>();
+        factory.setServiceInterface(MatrixIf.class);
+        factory.setBaseUri(getBaseURI());
+        factory.afterPropertiesSet();
+        return factory.getObject();
     }
 
     private static URI getBaseURI() {
