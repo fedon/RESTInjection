@@ -3,8 +3,10 @@ RESTInjection
 
 demonstration project
 
-This is a smal web app based on Jersey and Spring. The app tends to implement matrix operations such as transpose,
-multiply, etc.
-/math/ops will show available operations.
+This is a small web app based on Jersey 2.x and Resteasy. The app tends to implement matrix operations such as transpose,
+multiply, etc.<br>
+It also provides clients with compile time types. Special interest is in Jersey Application configuration which includes
+Json marshller & Injection. WebApplicationException is used for error signalling.
+/<provider>/ops will show available operations.
 
 Run the app by mvn jetty:run.
