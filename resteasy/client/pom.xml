@@ -14,8 +14,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <inherited>true</inherited>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -43,33 +43,35 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-spring</artifactId>
-              <version>${jersey.version}</version>
+           <groupId>org.fedon.matrix</groupId>
+           <artifactId>matrix-model</artifactId>
+           <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-proxy-client</artifactId>
-            <version>2.3</version>
-        </dependency>
+           <groupId>org.fedon.matrix</groupId>
+           <artifactId>matrixREST-API</artifactId>
+           <version>${project.version}</version>
+        </dependency>  
         
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring-core-version}</version>
+        </dependency>   
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-core-version}</version>
+        </dependency>
+           
             
-        <!-- 
+        <!-- Resteasy   -->
          <dependency>
-             <groupId>com.sun.jersey</groupId>
-             <artifactId>jersey-client</artifactId>
-             <version>${jersey.version}</version>
-         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
+             <groupId>org.jboss.resteasy</groupId>
+             <artifactId>resteasy-spring</artifactId>
+             <version>${resteasy.version}</version>
+         </dependency>       
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
@@ -80,6 +82,7 @@
             <artifactId>resteasy-jaxrs</artifactId>
             <version>${resteasy.version}</version>
         </dependency>
+        <!-- 
          -->
         <!-- test -->
         <dependency>
@@ -93,19 +96,6 @@
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring-core-version}</version>
-        </dependency>
-        <!-- Resteasy 
-        <resteasy.version>2.3.1.GA</resteasy.version>
-        <resteasy.version>3.0.4.Final</resteasy.version>-->
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-spring</artifactId>
-            <version>${resteasy.version}</version>
         </dependency>
         
         <!-- Provided by the servlet container, but sometimes referenced in the application

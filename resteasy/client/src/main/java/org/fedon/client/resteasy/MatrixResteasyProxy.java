@@ -14,7 +14,7 @@ import org.jboss.resteasy.client.spring.RestClientProxyFactoryBean;
  */
 public class MatrixResteasyProxy {
 
-    static String base = "http://localhost:8080/matrixREST/easy-matrix";
+    static String base = "http://localhost:8080/matrixREST-resteasy/easy-matrix";
 
     public static void main(String[] args) throws Exception {
         MatrixIf client = createClient();

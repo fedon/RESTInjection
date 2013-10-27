@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>matrixREST Resteasy Webapp</name>
     <build>
-        <finalName>matrixREST</finalName>
+        <finalName>matrixREST-resteasy</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -43,33 +43,34 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.sun.jersey.contribs</groupId>
-            <artifactId>jersey-spring</artifactId>
-              <version>${jersey.version}</version>
+           <groupId>org.fedon.matrix</groupId>
+           <artifactId>matrix-model</artifactId>
+           <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.ext</groupId>
-            <artifactId>jersey-proxy-client</artifactId>
-            <version>2.3</version>
+           <groupId>org.fedon.matrix</groupId>
+           <artifactId>matrixREST-API</artifactId>
+           <version>${project.version}</version>
         </dependency>
         
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring-core-version}</version>
+        </dependency>
             
         <!-- 
-         <dependency>
-             <groupId>com.sun.jersey</groupId>
-             <artifactId>jersey-client</artifactId>
-             <version>${jersey.version}</version>
-         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
