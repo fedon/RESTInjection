@@ -24,7 +24,6 @@ public class MatrixManager {
             log.error(error);
             throw new WebApplicationException(new IllegalArgumentException(error), HttpServletResponse.SC_BAD_REQUEST);
         }
-        // log.info("name: " + appctx.getDisplayName());
         for (int i = 0; i < matrixs.length; i++) {
             log.info("matrix[" + i + "] for mult: " + matrixs[i]);
         }
