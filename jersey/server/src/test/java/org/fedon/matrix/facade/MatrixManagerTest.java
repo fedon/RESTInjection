@@ -2,7 +2,6 @@ package org.fedon.matrix.facade;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
 
 import javax.ws.rs.WebApplicationException;
 
@@ -10,9 +9,7 @@ import org.fedon.matrix.model.Matrix;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.context.ApplicationContext;
 
 /**
  * @author Dmytro Fedonin
@@ -20,8 +17,6 @@ import org.springframework.context.ApplicationContext;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MatrixManagerTest {
-    @Mock
-    ApplicationContext appc;
     @InjectMocks
     MatrixManager mng;
 
@@ -31,7 +26,6 @@ public class MatrixManagerTest {
         a.set(1, 0, 1);
         Matrix b = new Matrix();
         b.set(0, 1, 3);
-        when(appc.getDisplayName()).thenReturn("mock");
 
         Matrix result = mng.mult(b, Matrix.instancE());
         assertNotNull(result);

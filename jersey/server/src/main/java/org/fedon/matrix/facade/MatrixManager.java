@@ -1,27 +1,22 @@
 package org.fedon.matrix.facade;
 
-import javax.servlet.ServletContext;
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fedon.matrix.model.Matrix;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Dmytro Fedonin
  *
  */
-@Service
+@Resource
+@ManagedBean
 public class MatrixManager {
     private final Log log = LogFactory.getLog(this.getClass());
-    @Autowired
-    ServletContext ctx;
-    @Autowired
-    ApplicationContext appctx;
 
     public Matrix mult(Matrix... matrixs) {
         if (matrixs.length < 2) {
@@ -29,7 +24,7 @@ public class MatrixManager {
             log.error(error);
             throw new WebApplicationException(new IllegalArgumentException(error), HttpServletResponse.SC_BAD_REQUEST);
         }
-        log.info("name: " + appctx.getDisplayName());
+        // log.info("name: " + appctx.getDisplayName());
         for (int i = 0; i < matrixs.length; i++) {
             log.info("matrix[" + i + "] for mult: " + matrixs[i]);
         }
@@ -55,7 +50,8 @@ public class MatrixManager {
     }
 
     public void info() {
-        log.info("Server: " + ctx.getServerInfo());
+        log.info("Server: n/a");
+        // log.info("Server: " + ctx.getServerInfo());
     }
 
     public Matrix trans(Matrix matrix) {

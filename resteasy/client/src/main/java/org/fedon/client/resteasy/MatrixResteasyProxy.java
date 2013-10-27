@@ -15,9 +15,15 @@ import org.jboss.resteasy.client.spring.RestClientProxyFactoryBean;
 public class MatrixResteasyProxy {
 
     static String base = "http://localhost:8080/matrixREST-resteasy/easy-matrix";
+    static String jersey = "http://localhost:8080/matrixREST-jersey/jersey";
 
     public static void main(String[] args) throws Exception {
-        MatrixIf client = createClient();
+        String url = base;
+        if (args.length > 0) {
+            url = jersey;
+        }
+        System.out.println("Working with URL: " + url);
+        MatrixIf client = createClient(url);
 
         Matrix a = new Matrix();
         a.set(1, 0, 1);
@@ -36,15 +42,15 @@ public class MatrixResteasyProxy {
         result = client.mult(Matrix.instancE());
     }
 
-    private static MatrixIf createClient() throws Exception {
+    private static MatrixIf createClient(String url) throws Exception {
         RestClientProxyFactoryBean<MatrixIf> factory = new RestClientProxyFactoryBean<MatrixIf>();
         factory.setServiceInterface(MatrixIf.class);
-        factory.setBaseUri(getBaseURI());
+        factory.setBaseUri(getBaseURI(url));
         factory.afterPropertiesSet();
         return factory.getObject();
     }
 
-    private static URI getBaseURI() {
-        return UriBuilder.fromUri(base).build();
+    private static URI getBaseURI(String url) {
+        return UriBuilder.fromUri(url).build();
     }
 }

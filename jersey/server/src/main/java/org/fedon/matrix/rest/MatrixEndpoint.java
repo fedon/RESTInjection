@@ -1,20 +1,19 @@
 
 package org.fedon.matrix.rest;
 
+import javax.inject.Inject;
 import javax.ws.rs.Path;
 
 import org.fedon.matrix.facade.MatrixManager;
 import org.fedon.matrix.model.Matrix;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Dmytro Fedonin
  */
-@Component
 @Path("/jersey")
 public class MatrixEndpoint implements MatrixIf {
-    @Autowired
+    // @Autowired
+    @Inject
     MatrixManager matrixManager;
 
     public String supportedOps() {

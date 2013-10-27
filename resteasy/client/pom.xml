@@ -110,7 +110,6 @@
     <properties>
         <servlet-api-release-version>2.5</servlet-api-release-version>
         <spring-core-version>3.1.0.RELEASE</spring-core-version>
-        <jersey.version>1.17.1</jersey.version>
         <resteasy.version>3.0.4.Final</resteasy.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
