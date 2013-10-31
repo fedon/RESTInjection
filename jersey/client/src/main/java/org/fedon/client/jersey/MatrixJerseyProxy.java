@@ -5,7 +5,9 @@ import javax.ws.rs.client.ClientBuilder;
 
 import org.fedon.matrix.model.Matrix;
 import org.fedon.matrix.rest.MatrixIf;
+import org.glassfish.jersey.client.AgoraWebTarget;
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.JerseyWebTarget;
 import org.glassfish.jersey.client.proxy.WebResourceFactory;
 import org.glassfish.jersey.jettison.JettisonFeature;
 
@@ -19,7 +21,9 @@ public class MatrixJerseyProxy {
     public static void main(String[] args) throws Exception {
         ClientConfig cc = new ClientConfig().register(JettisonFeature.class);
         Client resource = ClientBuilder.newClient(cc);
-        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(base));
+        JerseyWebTarget wt = (JerseyWebTarget) resource.target(base);
+        wt = new AgoraWebTarget(wt.getUriBuilder(), wt.getConfiguration());
+        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, wt);
 
         Matrix result = client.single();
         System.out.println("E = " + result);
