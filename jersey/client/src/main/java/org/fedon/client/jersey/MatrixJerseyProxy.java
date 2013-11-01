@@ -5,11 +5,10 @@ import javax.ws.rs.client.ClientBuilder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fedon.client.connector.AgoraConnector;
 import org.fedon.matrix.model.Matrix;
 import org.fedon.matrix.rest.MatrixIf;
-import org.glassfish.jersey.client.AgoraWebTarget;
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.JerseyWebTarget;
 import org.glassfish.jersey.client.proxy.WebResourceFactory;
 import org.glassfish.jersey.jettison.JettisonFeature;
 
@@ -22,11 +21,9 @@ public class MatrixJerseyProxy {
     static String base = "http://localhost:8080/matrixREST-jersey/jersey";
 
     public static void main(String[] args) throws Exception {
-        ClientConfig cc = new ClientConfig().register(JettisonFeature.class);
+        ClientConfig cc = new ClientConfig().register(JettisonFeature.class).connector(new AgoraConnector());
         Client resource = ClientBuilder.newClient(cc);
-        JerseyWebTarget wt = (JerseyWebTarget) resource.target(base);
-        wt = new AgoraWebTarget(wt.getUriBuilder(), wt.getConfiguration());
-        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, wt);
+        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(base));
 
         Matrix result;
         Matrix a = new Matrix();
