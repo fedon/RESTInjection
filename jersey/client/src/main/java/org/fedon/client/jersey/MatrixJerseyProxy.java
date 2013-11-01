@@ -3,6 +3,8 @@ package org.fedon.client.jersey;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fedon.matrix.model.Matrix;
 import org.fedon.matrix.rest.MatrixIf;
 import org.glassfish.jersey.client.AgoraWebTarget;
@@ -13,9 +15,10 @@ import org.glassfish.jersey.jettison.JettisonFeature;
 
 /**
  * @author Dmytro Fedonin
- *
+ * 
  */
 public class MatrixJerseyProxy {
+    private final static Log log = LogFactory.getLog(MatrixJerseyProxy.class);
     static String base = "http://localhost:8080/matrixREST-jersey/jersey";
 
     public static void main(String[] args) throws Exception {
@@ -25,23 +28,33 @@ public class MatrixJerseyProxy {
         wt = new AgoraWebTarget(wt.getUriBuilder(), wt.getConfiguration());
         MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, wt);
 
-        Matrix result = client.single();
-        System.out.println("E = " + result);
-
+        Matrix result;
         Matrix a = new Matrix();
         a.set(1, 0, 1);
-        System.out.println("a: " + a);
+        log.info("a: " + a);
+
         result = client.trans(a);
-        System.out.println("trans <a> = " + result);
+        log.info("trans <a> = " + result);
 
         Matrix b = new Matrix();
         b.set(0, 1, 3);
-        System.out.println("b: " + b);
+        log.info("b: " + b);
+
         result = client.mult(b, a, Matrix.instancE());
+        log.info("b * a * E = " + result);
 
-        System.out.println("b * a * E = " + result);
+        try {
+            log.info("-------------- call timeout -------------- ");
+            result = client.single();
+        } catch (Exception e) {
+            log.warn("timeout: " + e);
+        }
 
-        result = client.mult(Matrix.instancE());
-
+        try {
+            log.info("-------------- call bad -------------- ");
+            result = client.mult(Matrix.instancE());
+        } catch (Exception e) {
+            log.warn("bad: " + e);
+        }
     }
 }

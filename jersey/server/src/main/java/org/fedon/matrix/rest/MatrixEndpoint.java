@@ -4,6 +4,8 @@ package org.fedon.matrix.rest;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.fedon.matrix.facade.MatrixManager;
 import org.fedon.matrix.model.Matrix;
 
@@ -12,7 +14,7 @@ import org.fedon.matrix.model.Matrix;
  */
 @Path("/jersey")
 public class MatrixEndpoint implements MatrixIf {
-    // @Autowired
+    private final Log log = LogFactory.getLog(this.getClass());
     @Inject
     MatrixManager matrixManager;
 
@@ -28,6 +30,12 @@ public class MatrixEndpoint implements MatrixIf {
 
     @Override
     public Matrix single() {
+        try {
+            Thread.sleep(10000l); // bad resource -- test Hystrix
+            log.info("-- after sleeping --");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return Matrix.instancE();
     }
 

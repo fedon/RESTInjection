@@ -42,11 +42,57 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.17.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jettison</artifactId>
             <version>${jersey.version}</version>
         </dependency>
 
+        <!-- Agora -->
+        <dependency>
+            <groupId>com.odesk.agora</groupId>
+            <artifactId>core</artifactId>
+            <version>${agora.core.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-core</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-bundle</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-servlet</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-server</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-client</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-apache-client4</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>jsr311-api</artifactId>            
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>            
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
@@ -63,6 +109,9 @@
         
     </dependencies>
     <properties>
+        <agora.core.snapshot.version>1.0.2-SNAPSHOT</agora.core.snapshot.version>
+        <agora.core.version>${agora.core.snapshot.version}</agora.core.version>
+        
         <jersey.version>2.3</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -16,7 +16,7 @@ public class AgoraInterceptor implements WriterInterceptor {
     public void aroundWriteTo(WriterInterceptorContext context) throws IOException, WebApplicationException {
 
         System.out.println("Interceptor: before proceed...");
-        context.proceed();
+        context.proceed(); // real call will be done latter in connector -- not good for Histrix
         System.out.println("Interceptor: done ===============");
     }
 }
