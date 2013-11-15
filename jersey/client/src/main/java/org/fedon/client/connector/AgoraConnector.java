@@ -1,6 +1,9 @@
 package org.fedon.client.connector;
 
+import java.net.URI;
 import java.util.concurrent.Future;
+
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +20,7 @@ import com.odesk.agora.hystrix.O2HystrixCommand;
  */
 public class AgoraConnector extends HttpUrlConnector {
     private final Log log = LogFactory.getLog(this.getClass());
+    public static final String dynamicURIPartTemplate = "eureka";
 
     public AgoraConnector() {
         super();
@@ -32,6 +36,8 @@ public class AgoraConnector extends HttpUrlConnector {
     @Override
     public ClientResponse apply(final ClientRequest request) {
         log.debug("Invoke Histrix command -- " + request.getUri());
+        request.setUri(eurekaUri(request.getUri()));
+        log.debug("discover -- " + request.getUri());
 
         return new O2HystrixCommand<ClientResponse>("matrix", request.getUri().toString()) {
             @Override
@@ -61,5 +67,11 @@ public class AgoraConnector extends HttpUrlConnector {
     Future<?> _apply(ClientRequest request, AsyncConnectorCallback callback) {
         log.info("Inside async Histrix command...");
         return super.apply(request, callback);
+    }
+
+    protected URI eurekaUri(URI uri) {
+        String str = uri.toString();
+        String replacement = str.replaceFirst(dynamicURIPartTemplate, "replacement");
+        return UriBuilder.fromUri(replacement).build();
     }
 }

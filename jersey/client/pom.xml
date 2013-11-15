@@ -46,9 +46,16 @@
             <artifactId>jersey-client</artifactId>
             <version>1.17.1</version>
         </dependency>
+        <!-- test
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jettison</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+         -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey.version}</version>
         </dependency>
 

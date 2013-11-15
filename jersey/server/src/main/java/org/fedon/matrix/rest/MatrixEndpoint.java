@@ -3,9 +3,11 @@ package org.fedon.matrix.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fedon.matrix.exception.MatrixAppException;
 import org.fedon.matrix.facade.MatrixManager;
 import org.fedon.matrix.model.Matrix;
 
@@ -42,5 +44,16 @@ public class MatrixEndpoint implements MatrixIf {
     @Override
     public Matrix mult(Matrix... matrixs) {
         return matrixManager.mult(matrixs);
+    }
+
+    public String badMethod(@PathParam("bool") boolean flag) {
+        if (flag) {
+            log.error("internal err hap");
+            // throw new MatrixAppException(new TError("-- message --", 15)); //works
+            // throw new MatrixAppException("-- here ex goes to client --"); // works
+            throw new MatrixAppException("here ex goes", new RuntimeException("rte"));
+            // throw new WebApplicationException("here ex goes", new RuntimeException("rte"));
+        }
+        return "uf!";
     }
 }

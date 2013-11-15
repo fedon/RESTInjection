@@ -71,12 +71,16 @@
             <!-- use the following artifactId if you don't need servlet 2.x compatibility -->
             <!-- artifactId>jersey-container-servlet</artifactId -->
         </dependency>
-        <!-- uncomment this to get JSON support
-            <artifactId>jersey-media-moxy</artifactId>
-        -->
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jettison</artifactId>
+        </dependency>
+        <!-- pojo support?
+            <artifactId>jersey-media-moxy</artifactId>
+          -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
         <!-- logging -->
         <dependency>
