@@ -12,8 +12,6 @@ import org.glassfish.jersey.client.ClientResponse;
 import org.glassfish.jersey.client.HttpUrlConnector;
 import org.glassfish.jersey.client.spi.AsyncConnectorCallback;
 
-import com.odesk.agora.hystrix.O2HystrixCommand;
-
 /**
  * @author Dmytro Fedonin
  *
@@ -39,12 +37,7 @@ public class AgoraConnector extends HttpUrlConnector {
         request.setUri(eurekaUri(request.getUri()));
         log.debug("discover -- " + request.getUri());
 
-        return new O2HystrixCommand<ClientResponse>("matrix", request.getUri().toString()) {
-            @Override
-            protected ClientResponse run() throws Exception {
                 return _apply(request);
-            }
-        }.execute();
     }
 
     ClientResponse _apply(ClientRequest request) {
@@ -56,12 +49,7 @@ public class AgoraConnector extends HttpUrlConnector {
     public Future<?> apply(final ClientRequest request, final AsyncConnectorCallback callback) {
         log.debug("Invoke async Histrix command -- " + request.getUri());
 
-        return new O2HystrixCommand<Future<?>>("matrix", request.getUri().toString()) {
-            @Override
-            protected Future<?> run() throws Exception {
                 return _apply(request, callback);
-            }
-        }.execute();
     }
 
     Future<?> _apply(ClientRequest request, AsyncConnectorCallback callback) {
