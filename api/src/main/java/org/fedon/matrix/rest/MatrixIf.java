@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.fedon.matrix.annotation.StatusAccepted;
 import org.fedon.matrix.model.Matrix;
 
 /**
@@ -30,6 +31,7 @@ public interface MatrixIf {
 
     @GET
     @Path("/ops")
+    @StatusAccepted
     public String supportedOps();
 
     @GET
@@ -39,6 +41,7 @@ public interface MatrixIf {
 
     @GET
     @Path("/exc/{bool}")
-    @Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON })
+    @Produces(MediaType.APPLICATION_JSON)
+    @StatusAccepted
     public String badMethod(@PathParam("bool") boolean flag);
 }

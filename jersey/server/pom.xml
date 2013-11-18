@@ -77,6 +77,10 @@
         </dependency>
         <!-- pojo support?
             <artifactId>jersey-media-moxy</artifactId>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-entity-filtering</artifactId>
+        </dependency>
           -->
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
@@ -121,7 +125,7 @@
     <properties>
         <servlet-api-release-version>2.5</servlet-api-release-version>
         <spring-core-version>3.1.0.RELEASE</spring-core-version>
-        <jersey.version>2.3.1</jersey.version>
+        <jersey.version>2.4</jersey.version>
         <resteasy.version>3.0.4.Final</resteasy.version>
         <jersey.spring.version>1.17.1</jersey.spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

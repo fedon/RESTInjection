@@ -1,9 +1,13 @@
 package org.fedon.matrix.facade;
 
+import java.util.Arrays;
+
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.container.ResourceInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +21,8 @@ import org.fedon.matrix.model.Matrix;
 @ManagedBean
 public class MatrixManager {
     private final Log log = LogFactory.getLog(this.getClass());
+    @Inject
+    ResourceInfo rInfo;
 
     public Matrix mult(Matrix... matrixs) {
         if (matrixs.length < 2) {
@@ -49,8 +55,8 @@ public class MatrixManager {
     }
 
     public void info() {
-        log.info("Server: n/a");
-        // log.info("Server: " + ctx.getServerInfo());
+        log.info("Resource: " + rInfo.getResourceClass().getName());
+        log.info("Annotations: " + Arrays.toString(rInfo.getResourceMethod().getAnnotations()));
     }
 
     public Matrix trans(Matrix matrix) {

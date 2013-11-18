@@ -3,7 +3,6 @@ package org.fedon.matrix.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,7 +15,7 @@ import org.fedon.matrix.model.Matrix;
  */
 @Path("/jersey")
 public class MatrixEndpoint implements MatrixIf {
-    private final Log log = LogFactory.getLog(this.getClass());
+    private final Log log = LogFactory.getLog(getClass());
     @Inject
     MatrixManager matrixManager;
 
@@ -46,7 +45,7 @@ public class MatrixEndpoint implements MatrixIf {
         return matrixManager.mult(matrixs);
     }
 
-    public String badMethod(@PathParam("bool") boolean flag) {
+    public String badMethod(boolean flag) {
         if (flag) {
             log.error("internal err hap");
             // throw new MatrixAppException(new TError("-- message --", 15)); //works
