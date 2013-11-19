@@ -4,7 +4,6 @@ import org.fedon.matrix.filter.AgoraResponseFilter;
 import org.fedon.matrix.rest.MatrixEndpoint;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.internal.routing.AgoraRoutingContext;
 
 /**
  * @author Dmytro Fedonin
@@ -18,6 +17,5 @@ public class MatrixApplication extends ResourceConfig {
         register(JacksonFeature.class);
         register(MatrixEndpoint.class);
         register(AgoraResponseFilter.class);
-        register(AgoraRoutingContext.class);
     }
 }

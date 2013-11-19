@@ -60,7 +60,7 @@ public class MatrixManager {
     }
 
     public Matrix trans(Matrix matrix) {
-        log.info(matrix);
+        log.debug("input: " + matrix);
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 if (x < y) {
@@ -70,7 +70,7 @@ public class MatrixManager {
                 }
             }
         }
-        log.info(matrix);
+        log.info("output: " + matrix);
         return matrix;
     }
 }

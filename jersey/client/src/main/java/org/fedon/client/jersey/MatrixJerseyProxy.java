@@ -1,14 +1,18 @@
 package org.fedon.client.jersey;
 
+import java.util.concurrent.Future;
+
+import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fedon.client.connector.AgoraConnector;
 import org.fedon.matrix.rest.MatrixIf;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.proxy.WebResourceFactory;
-import org.glassfish.jersey.jackson.JacksonFeature;
 
 /**
  * @author Dmytro Fedonin
@@ -19,16 +23,13 @@ public class MatrixJerseyProxy {
     static String base = "http://localhost:8080/matrixREST-jersey/jersey";
 
     public static void main(String[] args) throws Exception {
-        // ClientConfig cc = new ClientConfig().register(JettisonFeature.class).connector(new AgoraConnector());
-        ClientConfig cc = new ClientConfig().register(JacksonFeature.class);
+        ClientConfig cc = new ClientConfig().connector(new AgoraConnector());
+        // ClientConfig cc = new ClientConfig().register(JacksonFeature.class);
         Client resource = ClientBuilder.newClient(cc);
-        // MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(AgoraConnector.dynamicURIPartTemplate));
-        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(base));
+        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(AgoraConnector.dynamicURIPartTemplate));
+        // MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(base));
 
-        log.info("-------------- call bad method -------------- ");
-
-        String str = client.badMethod(true);
-        log.info(str);
+        String str = null;
 
         // Matrix result;
         // Matrix a = new Matrix();
@@ -44,19 +45,24 @@ public class MatrixJerseyProxy {
         //
         // result = client.mult(b, a, Matrix.instancE());
         // log.info("b * a * E = " + result);
-        //
+
         // try {
         // log.info("-------------- call timeout -------------- ");
         // result = client.single();
         // } catch (Exception e) {
         // log.warn("timeout: " + e);
         // }
-        //
-        // try {
-        // log.info("-------------- call bad -------------- ");
-        // result = client.mult(Matrix.instancE());
-        // } catch (Exception e) {
-        // log.warn("bad: " + e);
-        // }
+
+        try {
+            log.info("-------------- call bad -------------- ");
+            str = client.badMethod(true);
+        } catch (Exception e) {
+            log.warn("bad: " + e);
+        }
+        log.info(str);
+
+        AsyncInvoker ai = resource.target(base).request().async();
+        Future<Response> responseFuture = ai.get();
+        log.info(responseFuture);
     }
 }
