@@ -21,7 +21,7 @@ import org.glassfish.jersey.server.internal.routing.RoutingContext;
  * @author Dmytro Fedonin
  *
  */
-public class AgoraResponseFilter implements ContainerResponseFilter {
+public class StatusResponseFilter implements ContainerResponseFilter {
     private final Log log = LogFactory.getLog(getClass());
 
     @Inject
