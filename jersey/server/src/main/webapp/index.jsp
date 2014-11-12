@@ -1,7 +1,7 @@
 <html>
 <body>
-<h2>Jersey RESTful Web Application!</h2>
-<p>Visit the <a href="http://jersey.java.net">Project Jersey website</a>
-for more information on Jersey!
+<h2>Jersey RESTful Test Web Application!</h2>
+<h3>Try matrix operations.</h3>
+<p> <a href="angular.html">Angular.js client</a>
 </body>
 </html>

@@ -14,7 +14,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey 2.3 Web Application</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/matrixREST-jersey/*</url-pattern>
     </servlet-mapping>
         
 </web-app>
