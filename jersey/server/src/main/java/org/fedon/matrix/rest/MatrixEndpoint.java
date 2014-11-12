@@ -2,6 +2,7 @@
 package org.fedon.matrix.rest;
 
 import javax.inject.Inject;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.apache.commons.logging.Log;
@@ -21,7 +22,7 @@ public class MatrixEndpoint implements MatrixIf {
 
     public String supportedOps() {
         matrixManager.info();
-        return "ops, trans, get1";
+        return "ops, trans, get1, mult, for more see application.wadl";
     }
 
     @Override
@@ -31,12 +32,7 @@ public class MatrixEndpoint implements MatrixIf {
 
     @Override
     public Matrix single() {
-        try {
-            Thread.sleep(10000l); // bad resource -- test Hystrix
-            log.info("-- after sleeping --");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // FIXME void static methods in business logic
         return Matrix.instancE();
     }
 
@@ -48,11 +44,22 @@ public class MatrixEndpoint implements MatrixIf {
     public String badMethod(boolean flag) {
         if (flag) {
             log.error("internal err hap");
-            // throw new MatrixAppException(new TError("-- message --", 15)); //works
             // throw new MatrixAppException("-- here ex goes to client --"); // works
             throw new MatrixAppException("here ex goes", new RuntimeException("rte"));
             // throw new WebApplicationException("here ex goes", new RuntimeException("rte"));
         }
         return "uf!";
+    }
+
+    @GET
+    @Path("/slow")
+    public String slow() {
+        try {
+            Thread.sleep(1000l); // "heavy load" method -- test Hystrix
+            log.info("-- after sleeping --");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "slow response";
     }
 }
