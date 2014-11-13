@@ -13,6 +13,8 @@ import org.fedon.matrix.annotation.StatusAccepted;
 import org.fedon.matrix.model.Matrix;
 
 /**
+ * Matrix is represented by array of rows (not columns). It means visual x-y inversion.
+ * 
  * @author Dmytro Fedonin
  */
 public interface MatrixIf {

@@ -8,8 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 /**
+ * Matrix is represented by array of rows (not columns). It means visual x-y inversion. Hardcoded 3x3 matrix.
+ * 
  * @author Dmytro Fedonin
- *
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
