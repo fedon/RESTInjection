@@ -34,11 +34,11 @@ public class MatrixManagerTest {
 
         result = mng.mult(a, b, Matrix.instancE());
         assertNotNull(result);
-        System.out.println("result: " + result);
+        System.out.println("result(abE): " + result);
 
         result = mng.mult(b, a);
         assertNotNull(result);
-        System.out.println("result: " + result);
+        System.out.println("result(ba): " + result);
 
         Matrix[] ba = new Matrix[2];
         ba[0] = b;

@@ -46,7 +46,7 @@ public class MatrixManager {
             for (int y = 0; y < 3; y++) {
                 int val = 0;
                 for (int i = 0; i < 3; i++) {
-                    val += left.get(x, i) * right.get(i, y);
+                    val += left.get(i, y) * right.get(x, i);
                 }
                 result.set(x, y, val);
             }
