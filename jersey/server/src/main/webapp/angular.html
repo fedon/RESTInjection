@@ -9,10 +9,10 @@
 
     <table> <!-- main frame -->
         <tr>
-        <td><!-- the first operand -->
+        <td><!-- the first operand (L) -->
 			<table style="text-align:center;"> <!-- matrix control and data-->
 			    <tr>
-			        <td><button ng-click="getSingle()">E</button></td> <td><button ng-click="extendX(m1)">-</button></td>
+			        <td><button ng-click="getSingleL()">E</button></td> <td><button ng-click="extendX(m1)">-</button></td>
 			    </tr>
 		        <tr>
 		            <td><button ng-click="extendY(m1)">|</button></td> <td>+</td>
@@ -23,9 +23,29 @@
 		           style="text-align:center;border: 0px solid;-moz-appearance:textfield;width:2.5em;" required="true"></td></tr>
 			</table>
         </td>
-        <td><!-- operator -->
+        <td valign="top"><!-- operator -->
+            <table style="text-align:center;">
+                <tr>
+                    <td><select ng-model="operator" ng-options="op.name for op in operators"/></td>
+                </tr>
+                <tr ng-repeat="yy in m1 track by $index"><!-- operator sign -->
+                    <td><span ng-show="$index==Math.round((m1.length)/2)">{{operator.sign}}</span>&nbsp;</td>
+                </tr>
+            </table>
         </td>
-        <td><!-- the second operand -->
+        <td><!-- the second operand (R) -->
+            <table style="text-align:center;" ng-show="operator.requiresRight"> <!-- matrix control and data-->
+                <tr>
+                    <td><button ng-click="getSingleR()">E</button></td> <td><button ng-click="extendX(m2)">-</button></td>
+                </tr>
+                <tr>
+                    <td><button ng-click="extendY(m2)">|</button></td> <td>+</td>
+                    <td ng-repeat="x in m2[0]  track by $index">---</td>
+                </tr>
+               <tr ng-repeat="y in m2 track by $index"><td></td><td>|</td>
+                   <td ng-repeat="x in y  track by $index"><input type="number" max=999 ng-model="y[$index]"
+                   style="text-align:center;border: 0px solid;-moz-appearance:textfield;width:2.5em;" required="true"></td></tr>
+            </table>
         </td>
         <td><!-- action -->
         </td>
@@ -34,17 +54,30 @@
         </tr>
     </table>
 
-<p>Here should be warning message*</p>
-Response: {{ error }}
+<p ng-show="m1.length<4 && m1[0].length<4 && m1.length + m1[0].length < 6" style="color: #bf5f00;">3x3 is expected.</p>
+<p ng-show="m1.length==3 && m1[0].length==3" style="color:green;">That is exactly what is expected.</p>
+<p ng-show="m1.length>3 || m1[0].length>3" style="color:red;">Dummy back-end expects 3x3 only.</p>
+Response: {{ error }} operator: {{operator.name}}
 <ul><li ng-repeat="x in m1  track by $index">{{x}}</li></ul>
 
 <script>
-function customersController($scope,$http) { 
+function customersController($scope,$http) {
+	$scope.Math = window.Math;
 	$scope.m1=[[0,0],[0,0]];
-    $scope.getSingle=function() {
+    $scope.m2=[[0,0],[0,0]];
+    $scope.operators=[
+                      {sign:'t', requiresRight:false, name:"transpose"},
+                      {sign:'*', requiresRight:true, name:"production"} ];
+    $scope.operator=$scope.operators[0];
+    $scope.getSingleL=function() {
 		$http.get("http://localhost:8080/matrixREST-jersey/matrixREST-jersey/jersey/get1")
 		  .success(function(data, status, headers, config) { $scope.m1= data.value; $scope.error = "OK";})
 		  .error(function(data, status, headers, config) {$scope.error = status;});
+    }
+    $scope.getSingleR=function() {
+        $http.get("http://localhost:8080/matrixREST-jersey/matrixREST-jersey/jersey/get1")
+          .success(function(data, status, headers, config) { $scope.m2= data.value; $scope.error = "OK";})
+          .error(function(data, status, headers, config) {$scope.error = status;});
     }
     $scope.extendX = function(m){l=m[0].length; for(i=0; i<m.length; i++) m[i][l]=0;}
     $scope.extendY = function(m){row=[0,0];for(i=0; i<m[0].length; i++) row[i]=0;m[m.length]=row;}
