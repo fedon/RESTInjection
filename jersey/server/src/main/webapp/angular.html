@@ -20,13 +20,13 @@
 		        </tr>
 		       <tr ng-repeat="y in m1 track by $index"><td></td><td>|</td>
 		           <td ng-repeat="x in y  track by $index"><input type="number" max=999 ng-model="y[$index]"
-		           style="text-align:center;border: 0px solid;-moz-appearance:textfield;width:2em;" required="true"></td></tr>
+		           style="text-align:center;border: 0px solid;-moz-appearance:textfield;width:2em;" required="true" ng-change="resetResult()"></td></tr>
 			</table>
         </td>
         <td valign="top"><!-- operator -->
             <table style="text-align:center;">
                 <tr>
-                    <td><select ng-model="operator" ng-options="op.name for op in operators"/></td>
+                    <td><select ng-model="operator" ng-options="op.name for op in operators" ng-change="resetResult()"/></td>
                 </tr>
                 <tr ng-repeat="yy in m1 track by $index"><!-- operator sign -->
                     <td><span ng-show="$index==Math.round((m1.length)/2)">{{operator.sign}}</span>&nbsp;</td>
@@ -44,13 +44,24 @@
                 </tr>
                <tr ng-repeat="y in m2 track by $index"><td></td><td>|</td>
                    <td ng-repeat="x in y  track by $index"><input type="number" max=999 ng-model="y[$index]"
-                   style="text-align:center;border: 0px solid;-moz-appearance:textfield;width:2em;" required="true"></td></tr>
+                   style="text-align:center;border: 0px solid;-moz-appearance:textfield;width:2em;" required="true" ng-change="resetResult()"></td></tr>
             </table>
         </td>
         <td><!-- action -->
             <button ng-click="callServer()" ng-disabled="operator.requiresRight && (m1.length != m2[0].length || m1[0].length != m2.length)">=</button>
         </td>
         <td><!-- the result -->
+            <table style="text-align:center;" ng-hide="result == null"> <!-- matrix control and data-->
+                <tr>
+                    <td><button ng-click="" ng-disabled="true">E</button></td> <td><button ng-click="" ng-disabled="true">-</button></td>
+                </tr>
+                <tr>
+                    <td><button ng-click="" ng-disabled="true">|</button></td> <td>+</td>
+                    <td ng-repeat="x in result[0]  track by $index">---</td>
+                </tr>
+               <tr ng-repeat="y in result track by $index"><td></td><td>|</td>
+                   <td ng-repeat="x in y  track by $index" style="text-align:center;">{{y[$index]}}</td></tr>
+            </table>
         </td>
         </tr>
     </table>
@@ -58,7 +69,7 @@
 <p ng-show="m1.length<4 && m1[0].length<4 && m1.length + m1[0].length < 6" style="color: #bf5f00;">3x3 is expected.</p>
 <p ng-show="m1.length==3 && m1[0].length==3" style="color:green;">That is exactly what is expected.</p>
 <p ng-show="m1.length>3 || m1[0].length>3" style="color:red;">Dummy back-end expects 3x3 only.</p>
-Response: {{ error }} operator: {{operator.name}}
+Response: {{ error }} result: {{result}}
 <ul><li ng-repeat="x in m1  track by $index">{{x}}</li></ul>
 
 <script>
@@ -71,18 +82,43 @@ function customersController($scope,$http) {
                       {sign:'*', requiresRight:true, name:"production"} ];
     $scope.operator=$scope.operators[0];
     $scope.getSingleL=function() {
+    	$scope.resetResult();
 		$http.get("http://localhost:8080/matrixREST-jersey/matrixREST-jersey/jersey/get1")
 		  .success(function(data, status, headers, config) { $scope.m1= data.value; $scope.error = "OK";})
 		  .error(function(data, status, headers, config) {$scope.error = status;});
     }
     $scope.getSingleR=function() {
+    	$scope.resetResult();
         $http.get("http://localhost:8080/matrixREST-jersey/matrixREST-jersey/jersey/get1")
           .success(function(data, status, headers, config) { $scope.m2= data.value; $scope.error = "OK";})
           .error(function(data, status, headers, config) {$scope.error = status;});
     }
-    $scope.extendX = function(m) {l=m[0].length; for(i=0; i<m.length; i++) m[i][l]=0;}
-    $scope.extendY = function(m) {row=[0,0];for(i=0; i<m[0].length; i++) row[i]=0;m[m.length]=row;}
-    $scope.callServer = function() {$scope.error = "done";}
+    $scope.extendX = function(m) {l=m[0].length; for(i=0; i<m.length; i++) m[i][l]=0; $scope.resetResult();}
+    $scope.extendY = function(m) {row=[0,0];for(i=0; i<m[0].length; i++) row[i]=0;m[m.length]=row; $scope.resetResult();}
+    $scope.callServer = function() {
+        $scope.error = "=="+$scope.operator.name;
+	    if ($scope.operator.name == "transpose") {
+            $scope.error = "server transpose...";
+	    	arg1 = {value:null};
+            arg1.value = $scope.m1;
+            $scope.error = "http...";
+	        $http.post("http://localhost:8080/matrixREST-jersey/matrixREST-jersey/jersey/trans", arg1)
+	        .success(function(data, status, headers, config) { $scope.result= data.value; $scope.error = "done";})
+	        .error(function(data, status, headers, config) {$scope.error = status;});
+	    } else if ($scope.operator.name == "production") {
+            $scope.error = "server production...";
+            arg1 = {value:null};
+            arg1.value = $scope.m1;
+            arg2 = {value:null};
+            arg2.value = $scope.m2;
+	        $http.post("http://localhost:8080/matrixREST-jersey/matrixREST-jersey/jersey/mult", [arg1, arg2])
+	        .success(function(data, status, headers, config) { $scope.result= data.value; $scope.error = "done";})
+	        .error(function(data, status, headers, config) {$scope.error = status;});
+	    }
+    }
+    $scope.resetResult = function() {
+    	$scope.error = "reset"; $scope.result=null;
+    }
 }
 </script>
 
