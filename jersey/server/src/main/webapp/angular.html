@@ -69,8 +69,7 @@
 <p ng-show="m1.length<4 && m1[0].length<4 && m1.length + m1[0].length < 6" style="color: #bf5f00;">3x3 is expected.</p>
 <p ng-show="m1.length==3 && m1[0].length==3" style="color:green;">That is exactly what is expected.</p>
 <p ng-show="m1.length>3 || m1[0].length>3" style="color:red;">Dummy back-end expects 3x3 only.</p>
-Response: {{ error }} result: {{result}}
-<ul><li ng-repeat="x in m1  track by $index">{{x}}</li></ul>
+Response: {{ error }}
 
 <script>
 function customersController($scope,$http) {
