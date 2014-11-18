@@ -5,23 +5,25 @@ import javax.ws.rs.core.UriBuilder;
 import com.google.common.base.Preconditions;
 
 /**
+ * Brute force Hystrix integration enter point.
+ * 
  * @author Dmytro Fedonin
- *
+ * 
  */
-public class AgoraWebTarget extends JerseyWebTarget {
+public class HystrixWebTarget extends JerseyWebTarget {
 
     /**
      * @param uriBuilder
      * @param clientConfig
      */
-    public AgoraWebTarget(UriBuilder uriBuilder, ClientConfig clientConfig) {
+    public HystrixWebTarget(UriBuilder uriBuilder, ClientConfig clientConfig) {
         super(uriBuilder, clientConfig);
     }
 
     @Override
-    public AgoraBuilder request(String... acceptedResponseTypes) {
+    public HystrixBuilder request(String... acceptedResponseTypes) {
         getConfiguration().getClient().checkNotClosed();
-        AgoraBuilder result = new AgoraBuilder(getUri(), getConfiguration().snapshot());
+        HystrixBuilder result = new HystrixBuilder(getUri(), getConfiguration().snapshot());
         result.request().accept(acceptedResponseTypes);
         return result;
     }
@@ -31,6 +33,6 @@ public class AgoraWebTarget extends JerseyWebTarget {
         getConfiguration().getClient().checkNotClosed();
         Preconditions.checkNotNull(path, "path is 'null'.");
 
-        return new AgoraWebTarget(getUriBuilder().path(path), getConfiguration().snapshot());
+        return new HystrixWebTarget(getUriBuilder().path(path), getConfiguration().snapshot());
     }
 }

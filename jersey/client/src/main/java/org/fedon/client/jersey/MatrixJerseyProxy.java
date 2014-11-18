@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.fedon.client.connector.AgoraConnector;
+import org.fedon.client.connector.HystrixConnector;
 import org.fedon.matrix.rest.MatrixIf;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.proxy.WebResourceFactory;
@@ -23,10 +23,10 @@ public class MatrixJerseyProxy {
     static String base = "http://localhost:8080/matrixREST-jersey/jersey";
 
     public static void main(String[] args) throws Exception {
-        ClientConfig cc = new ClientConfig().connector(new AgoraConnector());
+        ClientConfig cc = new ClientConfig().connector(new HystrixConnector());
         // ClientConfig cc = new ClientConfig().register(JacksonFeature.class);
         Client resource = ClientBuilder.newClient(cc);
-        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(AgoraConnector.dynamicURIPartTemplate));
+        MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(HystrixConnector.dynamicURIPartTemplate));
         // MatrixIf client = WebResourceFactory.newResource(MatrixIf.class, resource.target(base));
 
         String str = null;

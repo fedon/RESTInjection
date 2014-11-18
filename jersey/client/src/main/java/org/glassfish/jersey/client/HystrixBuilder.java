@@ -10,16 +10,19 @@ import javax.ws.rs.core.GenericType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.odesk.agora.hystrix.O2HystrixCommand;
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandGroupKey;
 
 /**
+ * Brute force Hystrix integration. See Connector for proper approach.
+ * 
  * @author Dmytro Fedonin
  * 
  */
-public class AgoraBuilder extends JerseyInvocation.Builder {
+public class HystrixBuilder extends JerseyInvocation.Builder {
     private final Log log = LogFactory.getLog(this.getClass());
 
-    protected AgoraBuilder(URI uri, ClientConfig cc) {
+    protected HystrixBuilder(URI uri, ClientConfig cc) {
         super(uri, cc);
     }
 
@@ -27,7 +30,13 @@ public class AgoraBuilder extends JerseyInvocation.Builder {
     public <T> T method(final String name, final GenericType<T> responseType) throws ProcessingException, WebApplicationException {
         log.info("Invoke Histrix command here...");
 
-        return new O2HystrixCommand<T>("matrix", name) {
+        return new HystrixCommand<T>(new HystrixCommandGroupKey() {
+
+            @Override
+            public String name() {
+                return name;
+            }
+        }) {
             @Override
             protected T run() throws Exception {
                 return methodCall(name, responseType);
@@ -45,7 +54,13 @@ public class AgoraBuilder extends JerseyInvocation.Builder {
             WebApplicationException {
         log.debug("Invoke Histrix command with entity here... -- " + entity.getEntity());
 
-        return new O2HystrixCommand<T>("matrix", name) {
+        return new HystrixCommand<T>(new HystrixCommandGroupKey() {
+
+            @Override
+            public String name() {
+                return name;
+            }
+        }) {
             @Override
             protected T run() throws Exception {
                 return methodCall(name, entity, responseType);

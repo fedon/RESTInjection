@@ -10,13 +10,13 @@ import javax.ws.rs.ext.WriterInterceptorContext;
  * @author Dmytro Fedonin
  *
  */
-public class AgoraInterceptor implements WriterInterceptor {
+public class HystrixInterceptor implements WriterInterceptor {
 
     @Override
     public void aroundWriteTo(WriterInterceptorContext context) throws IOException, WebApplicationException {
 
         System.out.println("Interceptor: before proceed...");
-        context.proceed(); // real call will be done latter in connector -- not good for Histrix
+        context.proceed(); // real call will be done latter in connector -- not good for Hystrix
         System.out.println("Interceptor: done ===============");
     }
 }

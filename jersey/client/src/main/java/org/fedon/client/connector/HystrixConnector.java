@@ -16,18 +16,18 @@ import org.glassfish.jersey.client.spi.AsyncConnectorCallback;
  * @author Dmytro Fedonin
  *
  */
-public class AgoraConnector extends HttpUrlConnector {
+public class HystrixConnector extends HttpUrlConnector {
     private final Log log = LogFactory.getLog(this.getClass());
     public static final String dynamicURIPartTemplate = "eureka";
 
-    public AgoraConnector() {
+    public HystrixConnector() {
         super();
     }
 
     /**
      * @param connectionFactory
      */
-    public AgoraConnector(ConnectionFactory connectionFactory) {
+    public HystrixConnector(ConnectionFactory connectionFactory) {
         super(connectionFactory);
     }
 
